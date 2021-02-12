@@ -33,6 +33,7 @@
         <module>shardingsphere-ui-frontend</module>
         <module>shardingsphere-ui-backend</module>
         <module>shardingsphere-ui-distribution</module>
+        <module>springboot-sharding</module>
     </modules>
     
     <properties>
@@ -44,12 +45,20 @@
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
         <os-maven-plugin.version>1.5.0.Final</os-maven-plugin.version>
         <takari-maven-plugin.version>0.6.1</takari-maven-plugin.version>
-        
+
+        <springboot-sharding-core.version>0.0.1-SNAPSHOT</springboot-sharding-core.version>
+
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.walter</groupId>
+                <artifactId>springboot-sharding-core</artifactId>
+                <version>${springboot-sharding-core.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

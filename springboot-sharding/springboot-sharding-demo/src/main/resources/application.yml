@@ -1,0 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: sharding
+  profiles:
+    include: sharding
+  shardingsphere:
+    # 使用编码方式配置shardingsphere，要把enabled改为false
+    enabled: false

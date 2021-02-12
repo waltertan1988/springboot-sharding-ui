@@ -1,0 +1,76 @@
+shardingsphere:
+  datasource:
+    name: sharding
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hosts: localhost,localhost
+    url-pattern: jdbc:mysql://{HOST}/${shardingsphere.datasource.name}{DS_NUM}?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: root
+    password:
+    entity-packages-to-scan: com.walter.dao.entity
+    table-count: 2
+
+#spring:
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+
+#  shardingsphere:
+#    datasource:
+#      names: sharding0,sharding1
+#      type: com.zaxxer.hikari.HikariDataSource
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#      sharding0:
+#        type: ${spring.shardingsphere.datasource.type}
+#        driver-class-name: ${spring.shardingsphere.datasource.driver-class-name}
+#        jdbc-url: jdbc:mysql://localhost/sharding0?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+#        username: root
+#        password:
+#        max-active: 16
+#
+#      sharding1:
+#        type: ${spring.shardingsphere.datasource.type}
+#        driver-class-name: ${spring.shardingsphere.datasource.driver-class-name}
+#        jdbc-url: jdbc:mysql://localhost/sharding1?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+#        username: root
+#        password:
+#        max-active: 16
+#
+#    sharding:
+#      default-database-strategy:
+#        inline:
+#          sharding-column: user_id
+#          algorithm-expression: sharding$->{user_id % 2}
+#      binding-tables:
+#        - t_order,t_order_item
+#      #broadcast-tables: t_address
+#      default-data-source-name: sharding0
+#
+#      tables:
+#        t_order:
+#          actual-data-nodes: sharding$->{0..1}.t_order$->{0..1}
+#          table-strategy:
+#            inline:
+#              sharding-column: order_id
+#              algorithm-expression: t_order$->{order_id % 2}
+#          key-generator:
+#            column: order_id
+#            type: SNOWFLAKE
+#            props:
+#              worker:
+#                id: 123
+#
+#        t_order_item:
+#          actual-data-nodes: sharding$->{0..1}.t_order_item$->{0..1}
+#          table-strategy:
+#            inline:
+#              sharding-column: order_id
+#              algorithm-expression: t_order_item$->{order_id % 2}
+#          key-generator:
+#            column: order_item_id
+#            type: SNOWFLAKE
+#            props:
+#              worker:
+#                id: 123
