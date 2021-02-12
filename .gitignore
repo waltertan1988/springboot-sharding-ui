@@ -1,5 +1,8 @@
 HELP.md
 target/
+shardingsphere-ui-frontend/node
+shardingsphere-ui-frontend/node_modules
+shardingsphere-ui-frontend/test
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -29,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+shardingsphere-ui-frontend/test/coverage/
