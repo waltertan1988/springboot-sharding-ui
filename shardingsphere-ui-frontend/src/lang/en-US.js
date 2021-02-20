@@ -48,6 +48,10 @@ export default {
       {
         title: 'Data scaling',
         href: '/data-scaling'
+      },
+      {
+        title: 'SQL Command',
+        href: '/sql-command'
       }
     ],
     connected: 'Connected',
@@ -185,6 +189,49 @@ export default {
   },
   dataScaling: {
     btnTxt: 'ADD',
+    tableList: {
+      jobId: 'jobId',
+      jobName: 'jobName',
+      status: 'status',
+      operate: 'operate',
+      operateStop: 'stop',
+      operateSee: 'see'
+    },
+    registDialog: {
+      title: 'Add a job',
+      source: 'Source',
+      target: 'Target',
+      jobCount: 'JobCount',
+      jobCountPlaceholder: 'Please enter jobCount',
+      username: 'Username',
+      usernamePlaceholder: 'Please enter username',
+      password: 'Password',
+      passwordPlaceholder: 'Please enter password',
+      url: 'Url',
+      urlPlaceholder: 'Please enter url',
+      btnConfirmTxt: 'Confirm',
+      btnCancelTxt: 'Cancel'
+    },
+    rules: {
+      source: 'Please select the source of the registration center',
+      target: 'Please select a target',
+      serviceUrl: 'ServiceUrl must fill'
+    },
+    notify: {
+      title: 'Prompt',
+      conSucMessage: 'Add Succeeded',
+      conFailMessage: 'Add Failed',
+      delSucMessage: 'Delete Succeeded',
+      delFailMessage: 'Delete Failed'
+    },
+    serviceDialog: {
+      serviceName: 'Please enter serviceName',
+      serviceType: 'Please enter serviceType',
+      serviceUrl: 'Please enter serviceUrl'
+    }
+  },
+  sqlCommand: {
+    btnTxt: 'Run',
     tableList: {
       jobId: 'jobId',
       jobName: 'jobName',

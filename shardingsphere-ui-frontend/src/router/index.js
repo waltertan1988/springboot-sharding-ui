@@ -59,6 +59,12 @@ export const constantRouterMap = [
     component: () => import('@/views/data-scaling'),
     hidden: true,
     name: 'Data scaling'
+  },
+  {
+    path: '/sql-command',
+    component: () => import('@/views/sql-command'),
+    hidden: true,
+    name: 'SQL command'
   }
 ]
 
