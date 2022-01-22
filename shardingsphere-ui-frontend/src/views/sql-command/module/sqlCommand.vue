@@ -17,15 +17,18 @@
 
 <template>
   <el-row class="box-card">
-    <el-input :rows="10" v-model="textarea" type="textarea" class="edit-text"/>
+    <el-input :rows="10" v-model="sqlString" type="textarea" class="edit-text"/>
     <div class="btn-group">
       <el-button
         class="btn-plus"
         type="primary"
         icon="el-icon-caret-right"
-        @click="add"
+        @click="execute"
       >{{ $t("sqlCommand.btnTxt") }}</el-button>
     </div>
+
+    <h4>命令：{{lastSqlStr}}</h4>
+
     <div class="table-wrap">
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column
@@ -33,7 +36,6 @@
           :key="index"
           :prop="item.prop"
           :label="item.label"
-          :width="item.width"
         />
       </el-table>
       <div class="pagination">
@@ -49,37 +51,15 @@
   </el-row>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import clone from 'lodash/clone'
 import API from '../api'
+import clone from "lodash/clone"
 export default {
   name: 'SqlCommand',
   data() {
     return {
-      regustDialogVisible: false,
-      editDialogVisible: false,
-      column: [
-        {
-          label: this.$t('configCenter').configDialog.name,
-          prop: 'name'
-        },
-        {
-          label: this.$t('configCenter').configDialog.centerType,
-          prop: 'instanceType'
-        },
-        {
-          label: this.$t('configCenter').configDialog.address,
-          prop: 'serverLists'
-        },
-        {
-          label: this.$t('configCenter').configDialog.namespaces,
-          prop: 'namespace'
-        },
-        {
-          label: this.$t('configCenter').configDialog.orchestrationName,
-          prop: 'orchestrationName'
-        }
-      ],
+      sqlString: '',
+      lastSqlStr: '',
+      column: [],
       tableData: [],
       cloneTableData: [],
       currentPage: 1,
@@ -87,26 +67,32 @@ export default {
       total: null
     }
   },
-  created() {
-    this.getRegCenter()
-  },
   methods: {
-    ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
       this.tableData = data.splice(val - 1, this.pageSize)
     },
-    getRegCenter() {
-      API.getConfigCenter().then(res => {
-        const data = res.model
-        this.total = data.length
-        this.cloneTableData = clone(res.model)
-        this.tableData = data.splice(0, this.pageSize)
+    execute() {
+      this.lastSqlStr = this.sqlString
+
+      API.execute({command: this.sqlString}).then(res => {
+        // 处理表头
+        let column = []
+        res.model.columnNameList.forEach((e, i)=>column.push({label: e, prop: "column"+i}))
+        this.column = column
+
+        // 处理数据
+        let rows = []
+        res.model.columnValueList.forEach((r)=>{
+          let row = {}
+          r.forEach((e, i) => row["column" + i] = e)
+          rows.push(row)
+        });
+
+        this.total = rows.length
+        this.cloneTableData = clone(rows)
+        this.tableData = rows.splice(0, this.pageSize)
       })
-    },
-    add() {
-      alert("Execute")
-      this.regustDialogVisible = true
     }
   }
 }
