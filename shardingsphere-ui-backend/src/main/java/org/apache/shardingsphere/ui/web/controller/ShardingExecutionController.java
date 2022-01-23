@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/exec")
+@RequestMapping("/api/sql-command")
 public class ShardingExecutionController {
 
     @Autowired

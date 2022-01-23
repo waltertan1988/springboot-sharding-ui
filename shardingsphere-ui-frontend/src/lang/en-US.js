@@ -47,11 +47,11 @@ export default {
       },
       {
         title: 'Data scaling',
-        href: '/data-scaling',
+        href: '/data-scaling'
       },
       {
         title: 'SQL Command',
-        href: '/sql-command',
+        href: '/sql-command'
       }
     ],
     connected: 'Connected',

@@ -27,7 +27,7 @@
       >{{ $t("sqlCommand.btnTxt") }}</el-button>
     </div>
 
-    <h4>命令：{{lastSqlStr}}</h4>
+    <h4>命令：{{ lastSqlStr }}</h4>
 
     <div class="table-wrap">
       <el-table :data="tableData" border style="width: 100%">
@@ -52,7 +52,7 @@
 </template>
 <script>
 import API from '../api'
-import clone from "lodash/clone"
+import clone from 'lodash/clone'
 export default {
   name: 'SqlCommand',
   data() {
@@ -75,19 +75,19 @@ export default {
     execute() {
       this.lastSqlStr = this.sqlString
 
-      API.execute({command: this.sqlString}).then(res => {
+      API.execute({ command: this.sqlString }).then(res => {
         // 处理表头
-        let column = []
-        res.model.columnNameList.forEach((e, i)=>column.push({label: e, prop: "column"+i}))
+        const column = []
+        res.model.columnNameList.forEach((e, i) => column.push({ label: e, prop: 'column' + i }))
         this.column = column
 
         // 处理数据
-        let rows = []
-        res.model.columnValueList.forEach((r)=>{
-          let row = {}
-          r.forEach((e, i) => row["column" + i] = e)
+        const rows = []
+        res.model.columnValueList.forEach((r) => {
+          const row = {}
+          r.forEach((e, i) => { row['column' + i] = e })
           rows.push(row)
-        });
+        })
 
         this.total = rows.length
         this.cloneTableData = clone(rows)

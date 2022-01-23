@@ -55,7 +55,7 @@ export default {
           break
         }
 
-        if(parentMenuItem.child){
+        if (parentMenuItem.child) {
           for (const childMenuItem of parentMenuItem.child) {
             if (childMenuItem.href === to.path) {
               this.menus = [parentMenuItem.title, childMenuItem.title]

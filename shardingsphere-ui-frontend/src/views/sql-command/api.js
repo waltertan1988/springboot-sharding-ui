@@ -18,5 +18,5 @@
 import API from '@/utils/api'
 
 export default {
-  execute: (params = {}) => API.post(`/api/sql-command`, params),
+  execute: (params = {}) => API.post(`/api/sql-command`, params)
 }

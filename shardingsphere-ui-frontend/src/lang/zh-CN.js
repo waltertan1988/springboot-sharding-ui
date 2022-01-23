@@ -47,11 +47,11 @@ export default {
       },
       {
         title: '数据扩容',
-        href: '/data-scaling',
+        href: '/data-scaling'
       },
       {
         title: 'SQL命令',
-        href: '/sql-command',
+        href: '/sql-command'
       }
     ],
     connect: '已连接',
