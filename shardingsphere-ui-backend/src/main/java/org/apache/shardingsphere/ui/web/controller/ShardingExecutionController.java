@@ -12,6 +12,7 @@ import org.apache.shardingsphere.ui.common.domain.CenterConfig;
 import org.apache.shardingsphere.ui.common.dto.CommandResp;
 import org.apache.shardingsphere.ui.common.dto.CommandReq;
 import org.apache.shardingsphere.ui.servcie.CenterConfigService;
+import org.apache.shardingsphere.ui.servcie.DataSourceCacheService;
 import org.apache.shardingsphere.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.ui.web.response.ResponseResultUtil;
 import org.apache.shardingsphere.underlying.executor.context.ExecutionUnit;
@@ -39,33 +40,14 @@ public class ShardingExecutionController {
 
     @Autowired
     private CenterConfigService centerConfigService;
+    @Autowired
+    private DataSourceCacheService dataSourceCacheService;
 
-    @PostMapping(value = "")
+    @PostMapping
     public ResponseResult<CommandResp> executeCommand(@RequestBody CommandReq commandReq) throws SQLException {
         CenterConfig activatedConfig = centerConfigService.loadActivated(OrchestrationType.CONFIG_CENTER.getValue()).orElse(null);
-        DataSource dataSource = getDataSource(activatedConfig);
+        DataSource dataSource = dataSourceCacheService.getDataSourceWithCache(activatedConfig);
         return ResponseResultUtil.build(execute(dataSource, commandReq.getCommand()));
-    }
-
-    private DataSource getDataSource(CenterConfig activatedConfig) throws SQLException {
-        Map<String, CenterConfiguration> configurationMap = createCenterConfigurationMap(activatedConfig);
-        OrchestrationConfiguration orchestrationConfiguration = new OrchestrationConfiguration(configurationMap);
-        return OrchestrationShardingDataSourceFactory.createDataSource(orchestrationConfiguration);
-    }
-
-    private Map<String, CenterConfiguration> createCenterConfigurationMap(CenterConfig activatedConfig) {
-        Map<String, CenterConfiguration> instanceConfigurationMap = Maps.newHashMap();
-        CenterConfiguration config = createCenterConfiguration(activatedConfig);
-        instanceConfigurationMap.put(activatedConfig.getOrchestrationName(), config);
-        return instanceConfigurationMap;
-    }
-
-    private CenterConfiguration createCenterConfiguration(CenterConfig activatedConfig) {
-        CenterConfiguration result = new CenterConfiguration("zookeeper", activatedConfig.getProps());
-        result.setServerLists(activatedConfig.getServerLists());
-        result.setNamespace(activatedConfig.getNamespace());
-        result.setOrchestrationType("registry_center,config_center");
-        return result;
     }
 
     public CommandResp execute(DataSource dataSource, String sql) throws SQLException {
